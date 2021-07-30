@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+	<meta name="format-detection" content="telephone=no" />
 	<title>basic example</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-	<script type="text/javascript" src="../src/jquery.qrcode.js"></script>
-	<script type="text/javascript" src="../src/qrcode.js"></script>
+	<script src="../src/jquery.js"></script>
+	<script src="../src/jquery.qrcode.js"></script>
+	<script src="../src/qrcode.js"></script>
+	<style>
+		#qrcodeCanvas {
+			display: inline-block;
+			position: relative;
+		}
+		#qrcodeCanvas img {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
 </head>
 
 <body>
@@ -12,6 +27,10 @@
 	<div id="qrcodeTable"></div>
 	<p>Render in canvas</p>
 	<div id="qrcodeCanvas"></div>
+	<p>----------</p>
+	<div>
+		<img src="http://z.hnjing.com/Upload/LinkUpload/Original/201601/bbf1d6a4-7346-482d-bc86-6e7e69bb8328.jpg" alt="">
+	</div>
 
 	<script>
 		jQuery('#qrcodeTable').qrcode({
@@ -19,8 +38,18 @@
 			text: "http://jetienne.com"
 		});
 		jQuery('#qrcodeCanvas').qrcode({
-			text: "http://jetienne.com"
+			text: "http://www.baidu.com"
 		});
+
+		let $canvas = document.getElementsByTagName('canvas');
+		if ($canvas && $canvas.length > 0) {
+			generateImg($canvas[0]);
+		}		
+		function generateImg(element){
+			let img = new Image();
+			img.src = element.toDataURL('image/png');
+			$('#qrcodeCanvas').append(img)
+		}
 	</script>
 </body>
 </html>
