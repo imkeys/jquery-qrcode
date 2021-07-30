@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8" /> 
+<title>{GH:Field:SEOTitle}-{$GetClassName}-{$GetSiteTitle}</title>
+<meta content="{GH:Field:SeoKeyWords}" name="keywords" />
+<meta content="{GH:Field:SeoDescription}" name="description" />	
+{GH_JSCSS}
+<style>
+.show14,
+.show4 {
+  display:none;
+}
+</style>
+</head>
+
+<body>
+{GH_头部}
+
+<!--- content ↓↓↓↓↓↓↓↓↓ --->
+  <div id="location">
+    <div class="wrap clearfix">
+      <div class="location">
+        <dl class="urls">
+          <dt>您所在的位置：</dt>
+          <dd><a href="/">首页</a></dd>
+          <dd>{GH_位置导航}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div id="wrapper">
+    <div class="wrap clearfix">
+      <div class="design-profile">
+        <div class="cover">
+          <div class="img">
+            <img src="{GH:Field:DefaultPic}" alt="">
+          </div>
+        </div>
+        <div class="exp">
+          <div class="rcode">
+            <div id="rcodeCanvas"></div>
+            <script>
+              $('#rcodeCanvas').qrcode({
+                width: 80,
+                height: 80,
+                text: window.location.href
+              }).show();
+            </script>
+          </div>
+          <dl class="desc">
+            <dt>
+              <h2>{GH:Field:Title}</h2>
+              <h4 id="sjslevel" level="{GH:Field:level}"></h4>
+            </dt>
+            <dd id="school">毕业院校：{GH:Field:school}</dd>
+            <dd id="cynx">鸿扬年限：{GH:Field:cynx}年</dd>
+            <dd id="fenge">擅长风格：{GH:Field:fenge}</dd>
+            <dd id="ssmd">所属门店：{=Execute("SELECT City FROM GH_Area where ID={GH:Field:ProvinceId}")} {=Execute("SELECT City  FROM GH_Area where ID={GH:Field:CityID}")}</dd>
+            <dd id="sjln">设计理念：{GH:Field:sjln}</dd>
+          </dl>
+          <div class="honor">
+            <dl class="scroll">
+              {GH:Field:Content}
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix">
+        <div id="sider">
+          <div class="sider-order" id="siderOrder">
+            {GH_预约设计师}
+          </div>
+        </div>
+        <div id="container">
+          <div class="design-left">
+            <div class="design-rmd">
+              <div class="thead">
+                <h2>相关案例</h2>
+              </div>
+              <div class="tbody">
+                {SQL_相关案例分页()}
+              </div>
+            </div>
+            <div class="design-rmd">
+              <div class="thead">
+                <h2>相关工地</h2>
+              </div>
+              <div class="tbody">
+                <dl class="list2 clearfix">
+                  {SQL_相关工地(6)}
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {GH_底部表单}
+  <!--- content ↑↑↑↑↑↑↑↑↑ --->
+{GH_底部}
+
+<script type="text/javascript">
+$(function(){  
+  if('{GH:Field:ClassID}'=='16'){
+    $('#school').show();
+    $('#cynx').show();
+    $('#fenge').show();
+    $('#ssmd').hide();
+    $('#sjln').show();
+  }else{
+    $('#school').hide();
+    $('#cynx').show();
+    $('#fenge').hide();
+    $('#ssmd').show();
+    $('#sjln').hide();
+  }
+  var levarr=['','首席设计师','资深·C8','创意·C5','主笔·C3','特级项目经理','一级项目经理','工程主管']; 
+  $('#sjslevel').text(levarr[parseInt($('#sjslevel').attr('level'))]); 	
+});
+ 
+$(function(){
+  var hxarr=[''];
+  {GH_户型数组}
+  var fgarr=[''];
+  {GH_风格数组}
+  var mjarr=[''];
+  {GH_面积数组}  
+  $('.list .exp').find('dl:eq(0) dd:eq(0)').each(function(){
+  let index= $(this).attr('hx')?parseInt($(this).attr('hx')):0;
+  $(this).text('户型：'+hxarr[index]);
+  });  
+  $('.list .exp').find('dl:eq(0) dd:eq(1)').each(function(){
+  let index= $(this).attr('fenge')?parseInt($(this).attr('fenge')):0;
+  $(this).text('风格：'+fgarr[index]);
+  });
+});
+</script>	
+
+</body>
+</html>
